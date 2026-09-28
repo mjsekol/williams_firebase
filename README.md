@@ -16,17 +16,11 @@ The app requests only OpenID identity, profile/email, and `gmail.send`. Each use
 
 Signed-in users can connect a phone number by entering it in E.164 international format (for example, `+14155552671`) and confirming the one-time code sent by Twilio Verify. The verified phone number is kept in the server-side app session. Twilio sends only the verification code; it does not send reports.
 
-## Put the app on the web
+## Public web demo
 
-The included `render.yaml` deploys the app to Render with HTTPS, a public web URL, and Redis-backed production sessions.
+The public static app is available at [https://thunder-byte.github.io/problem-report-demo/](https://thunder-byte.github.io/problem-report-demo/). Its source is in [`demo/`](./demo/) and a separate public repository, so the private backend and credentials are not exposed. It shares the photo and description to the phone's native share sheet without downloading the photo; the user chooses an email or messaging app and recipient and confirms sending. Firebase Authentication sign-in is available after the owner adds the public Firebase web-app config and enables email/password and phone providers. See [`demo/README.md`](./demo/README.md) for setup and privacy details.
 
-1. Push this project to a GitHub repository and connect that repository to Render.
-2. In Render, create a new Blueprint from the repository and choose `render.yaml`. Use a paid Render web service and Redis instance for persistent production sessions.
-3. In the web service's environment settings, set `GOOGLE_CLIENT_ID` and `GOOGLE_CLIENT_SECRET`. Set the Twilio Verify variables too if phone verification should be available: `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, and `TWILIO_VERIFY_SERVICE_SID`.
-4. After the first deploy, copy the service's public HTTPS URL from Render. In Google Cloud Console, add `https://YOUR-APP.onrender.com/auth/google/callback` as an authorized redirect URI for the OAuth client. The app builds its callback from Render's provided public URL, so no extra `APP_ORIGIN` setting is needed.
-5. Redeploy, open the public URL in a browser, and share that URL with users.
-
-The URL will be publicly reachable, but Google sign-in and Gmail sending still require the Google OAuth client and Gmail API setup described above. For local development, use the `localhost` instructions instead of the Render deployment.
+For a live app with Google sign-in, Gmail delivery, phone verification, and persistent sessions, use the production hosting setup below. Hosting a live backend and Redis may incur charges.
 
 ## Text-message sharing
 
@@ -34,6 +28,6 @@ Text reports are shared from the user's phone with the Web Share API. The app do
 
 ## Production
 
-Serve this app only over HTTPS. Set `NODE_ENV=production`, `APP_ORIGIN` (or use the hosting provider's `RENDER_EXTERNAL_URL`), `GOOGLE_REDIRECT_URI`, `SESSION_SECRET` (at least 32 characters), and `REDIS_URL` for a persistent Redis service. Use TLS (`rediss://`) for remote Redis connections. If TLS is terminated by a reverse proxy, set `TRUST_PROXY=1` only when that proxy is trusted. Production sessions (including Gmail refresh tokens) are stored server-side in Redis; keep Redis private and access-controlled. The in-memory session store is used only for local development.
+Serve the live app only over HTTPS. The included [`render.yaml`](./render.yaml) configures the app and Redis session store for Render deployment. Set `NODE_ENV=production`, `APP_ORIGIN` (or use the hosting provider's `RENDER_EXTERNAL_URL`), `GOOGLE_REDIRECT_URI`, `SESSION_SECRET` (at least 32 characters), and `REDIS_URL` for a persistent Redis service. Use TLS (`rediss://`) for remote Redis connections. If TLS is terminated by a reverse proxy, set `TRUST_PROXY=1` only when that proxy is trusted. Production sessions (including Gmail refresh tokens) are stored server-side in Redis; keep Redis private and access-controlled. The in-memory session store is used only for local development.
 
 Reports are relayed through Gmail's API and are not retained by this app. The connected Google grant can be revoked in the user's Google Account settings. Signing out clears the app session.

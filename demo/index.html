@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f7f4">
+    <meta name="description" content="Sign in by email or verified phone number and share a photo of a problem.">
+    <title>Problem Report</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <div class="brand-mark" aria-hidden="true">P</div>
+        <div>
+          <p class="eyebrow">A clearer way to ask for help</p>
+          <h1>Report a problem</h1>
+        </div>
+      </header>
+
+      <p class="intro">Add a photo and a few details, then share your report using your preferred email or messaging app.</p>
+
+      <aside class="demo-notice" aria-label="Sharing information">
+        <strong>Share securely from your device</strong>
+        <span>Your photo and description are passed to your device’s share sheet. Choose an email or messaging app and recipient, then confirm sending. This site does not upload or store the report. Firebase handles sign-in and phone verification.</span>
+      </aside>
+
+      <section class="form-card auth-card" aria-labelledby="account-heading">
+        <div class="section-heading">
+          <div>
+            <h2 id="account-heading">Sign in to continue</h2>
+            <p>Choose email and password or a one-time code sent to your phone. These are separate sign-in methods.</p>
+          </div>
+        </div>
+        <div class="auth-panel" id="auth-setup" role="status" aria-live="polite">
+          <span id="auth-setup-message">Sign-in needs to be configured by the app owner before accounts can be used.</span>
+          <a href="https://github.com/thunder-byte/problem-report-demo#configure-sign-in">View sign-in setup instructions</a>
+        </div>
+        <div class="auth-panel" id="auth-loading" hidden>Checking your sign-in…</div>
+        <div class="auth-panel" id="auth-signed-in" hidden>
+          <p class="signed-in-label">Signed in as</p>
+          <strong id="signed-in-identity"></strong>
+          <div id="email-verification-required" hidden>
+            <p class="verification-note">Verify your email from the message we sent before continuing. Check your spam folder too.</p>
+            <button class="auth-link" id="resend-verification" type="button">Resend verification email</button>
+            <button class="auth-link" id="refresh-verification" type="button">I verified my email</button>
+          </div>
+          <button class="secondary-button" id="sign-out" type="button">Sign out</button>
+        </div>
+        <div id="auth-controls" hidden>
+          <div class="auth-methods" role="tablist" aria-label="Sign-in method">
+            <button class="auth-method active" id="email-method" type="button" role="tab" aria-selected="true" aria-controls="email-panel">Email</button>
+            <button class="auth-method" id="phone-method" type="button" role="tab" aria-selected="false" aria-controls="phone-panel">Phone</button>
+          </div>
+          <div id="email-panel" role="tabpanel" aria-labelledby="email-method">
+            <form id="email-auth-form">
+              <label class="field-label" for="login-email">Email address</label>
+              <input id="login-email" type="email" autocomplete="email" placeholder="name@example.com" required>
+              <label class="field-label" for="login-password">Password</label>
+              <input id="login-password" type="password" autocomplete="current-password" minlength="8" required>
+              <button class="submit-button auth-submit" id="email-submit" type="submit">Sign in with email</button>
+            </form>
+            <div class="auth-link-row">
+              <button class="auth-link" id="toggle-email-mode" type="button">Create account</button>
+              <button class="auth-link" id="reset-password" type="button">Forgot password?</button>
+            </div>
+          </div>
+          <div id="phone-panel" role="tabpanel" aria-labelledby="phone-method" hidden>
+            <form id="phone-auth-form">
+              <label class="field-label" for="login-phone">Mobile number</label>
+              <input id="login-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+14155552671" aria-describedby="login-phone-hint" required>
+              <small class="phone-hint" id="login-phone-hint">Use international format, starting with + and country code.</small>
+              <button class="submit-button auth-submit" id="phone-send-code" type="submit">Send sign-in code</button>
+            </form>
+            <form id="phone-code-form" hidden>
+              <p class="phone-hint" id="phone-code-hint"></p>
+              <label class="field-label" for="login-code">Text message code</label>
+              <input id="login-code" type="text" inputmode="numeric" autocomplete="one-time-code" pattern="[0-9]{4,10}" maxlength="10" required>
+              <button class="submit-button auth-submit" id="phone-verify-code" type="submit">Verify and sign in</button>
+              <button class="auth-link resend-code" id="resend-code" type="button">Send a new code</button>
+            </form>
+            <div id="recaptcha-container"></div>
+          </div>
+        </div>
+        <p id="auth-message" class="status-message" role="status" aria-live="polite"></p>
+      </section>
+
+      <form id="report-form" hidden>
+        <section class="form-card" aria-labelledby="photo-heading">
+          <div class="section-heading">
+            <span class="step-number">1</span>
+            <div>
+              <h2 id="photo-heading">Show us the problem</h2>
+              <p>A clear photo helps explain what’s going on.</p>
+            </div>
+          </div>
+          <label class="photo-picker" for="photo">
+            <img id="photo-preview" alt="Preview of the selected problem photo" hidden>
+            <span id="photo-prompt" class="photo-prompt">
+              <span class="camera-icon" aria-hidden="true">+</span>
+              <strong>Take a photo or choose one</strong>
+              <span>JPG, PNG, or HEIC · no download required</span>
+            </span>
+          </label>
+          <input id="photo" name="photo" type="file" accept="image/*" capture="environment" required>
+          <button class="text-button" id="remove-photo" type="button" hidden>Remove photo</button>
+        </section>
+
+        <section class="form-card" aria-labelledby="details-heading">
+          <div class="section-heading">
+            <span class="step-number">2</span>
+            <div>
+              <h2 id="details-heading">Describe what happened</h2>
+              <p>Include where it is and anything important to know.</p>
+            </div>
+          </div>
+          <label class="field-label" for="description">Problem description</label>
+          <textarea id="description" name="description" rows="4" maxlength="1000" placeholder="Tell us what you noticed…" required></textarea>
+          <div class="character-count"><span id="description-count">0</span>/1000</div>
+        </section>
+
+        <section class="form-card" aria-labelledby="contact-heading">
+          <div class="section-heading">
+            <span class="step-number">3</span>
+            <div>
+              <h2 id="contact-heading">Choose how to share</h2>
+              <p>Choose a preferred type of contact; your phone opens the share options.</p>
+            </div>
+          </div>
+          <fieldset class="contact-options">
+            <legend class="field-label">Preferred contact method</legend>
+            <label class="contact-option">
+              <input type="radio" name="contact-method" value="email" checked>
+              <span class="option-icon" aria-hidden="true">✉</span>
+              <span><strong>Email</strong><small>Use your mail app</small></span>
+            </label>
+            <label class="contact-option">
+              <input type="radio" name="contact-method" value="sms">
+              <span class="option-icon" aria-hidden="true">▤</span>
+              <span><strong>Text message</strong><small>Use your messaging app</small></span>
+            </label>
+          </fieldset>
+          <p class="privacy-note">The share sheet lets you select the app and recipient. Review the message and photo there before sending.</p>
+        </section>
+
+        <button class="submit-button" type="submit">
+          <span>Share report</span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+      </form>
+
+      <footer>Your report is shared only after you confirm in your chosen app.</footer>
+    </main>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js" defer></script>
+    <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js" defer></script>
+    <script src="firebase-config.js" defer></script>
+    <script src="auth.js" defer></script>
+    <script src="demo.js" defer></script>
+  </body>
+</html>
