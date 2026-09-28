@@ -1,0 +1,26 @@
+{
+  "name": "problem-report",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "node server.js",
+    "check": "node --check server.js && node --check app.js && node --check phone-verification.js && node --check report-mail.js",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "connect-redis": "^9.0.0",
+    "dotenv": "^16.6.1",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "express-session": "^1.18.2",
+    "file-type": "^21.0.0",
+    "googleapis": "^150.0.1",
+    "helmet": "^8.1.0",
+    "multer": "^2.0.2",
+    "redis": "^5.5.0"
+  }
+}

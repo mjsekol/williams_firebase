@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f7f4">
+    <meta name="description" content="Sign in with Google to email a problem photo and description, or share it by text.">
+    <title>Problem Report</title>
+    <link rel="manifest" href="manifest.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" href="icon.svg" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="icon.svg">
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="page-header">
+        <div class="brand-mark" aria-hidden="true">P</div>
+        <div>
+          <p class="eyebrow">A clearer way to ask for help</p>
+          <h1>Report a problem</h1>
+        </div>
+      </header>
+
+      <p class="intro">Add a photo and a few details. We’ll help you share them with the right person.</p>
+
+      <section class="account-card" aria-labelledby="account-heading">
+        <div>
+          <h2 id="account-heading">Connect your email</h2>
+          <p id="account-status" role="status" aria-live="polite">Checking sign-in…</p>
+        </div>
+        <a class="google-button" id="google-login" href="/auth/google" hidden>Sign in with Google</a>
+        <button class="text-button" id="logout-button" type="button" hidden>Sign out</button>
+      </section>
+      <p class="setup-note" id="setup-note" hidden>Google sign-in is not configured yet. The app owner needs to add Google OAuth credentials; see README.md.</p>
+      <section class="account-card phone-account" aria-labelledby="phone-heading">
+        <div class="phone-account-content">
+          <h2 id="phone-heading">Connect your phone</h2>
+          <p id="phone-status" role="status" aria-live="polite">Sign in with Google to connect a phone number.</p>
+          <div class="phone-connect-controls" id="phone-connect-controls" hidden>
+            <label class="field-label" for="account-phone">Your mobile number</label>
+            <div class="phone-input-row">
+              <input id="account-phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+14155552671" aria-describedby="phone-format-hint">
+              <button class="google-button" id="send-phone-code" type="button">Send code</button>
+            </div>
+            <small class="phone-hint" id="phone-format-hint">Use international format, starting with + and country code.</small>
+            <div class="phone-code-controls" id="phone-code-controls" hidden>
+              <p class="phone-hint" id="phone-code-sent-note"></p>
+              <label class="field-label" for="phone-code">Verification code</label>
+              <div class="phone-input-row">
+                <input id="phone-code" type="text" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="Enter the code">
+                <button class="google-button" id="verify-phone-code" type="button">Verify number</button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <button class="text-button" id="disconnect-phone" type="button" hidden>Change</button>
+      </section>
+
+      <form id="report-form">
+        <section class="form-card" aria-labelledby="photo-heading">
+          <div class="section-heading">
+            <span class="step-number">1</span>
+            <div>
+              <h2 id="photo-heading">Show us the problem</h2>
+              <p>A clear photo helps explain what’s going on.</p>
+            </div>
+          </div>
+          <label class="photo-picker" for="photo">
+            <img id="photo-preview" alt="Preview of the selected problem photo" hidden>
+            <span id="photo-prompt" class="photo-prompt">
+              <span class="camera-icon" aria-hidden="true">+</span>
+              <strong>Take a photo or choose one</strong>
+              <span>JPG, PNG, or HEIC</span>
+            </span>
+          </label>
+          <input id="photo" name="photo" type="file" accept="image/*" capture="environment" required>
+          <button class="text-button" id="remove-photo" type="button" hidden>Remove photo</button>
+        </section>
+
+        <section class="form-card" aria-labelledby="details-heading">
+          <div class="section-heading">
+            <span class="step-number">2</span>
+            <div>
+              <h2 id="details-heading">Describe what happened</h2>
+              <p>Include where it is and anything important to know.</p>
+            </div>
+          </div>
+          <label class="field-label" for="description">Problem description</label>
+          <textarea id="description" name="description" rows="4" maxlength="1000" placeholder="Tell us what you noticed…" required></textarea>
+          <div class="character-count"><span id="description-count">0</span>/1000</div>
+        </section>
+
+        <section class="form-card" aria-labelledby="contact-heading">
+          <div class="section-heading">
+            <span class="step-number">3</span>
+            <div>
+              <h2 id="contact-heading">Choose how to share</h2>
+              <p>Email is sent from your connected Gmail. Texts use your phone’s share sheet.</p>
+            </div>
+          </div>
+          <fieldset class="contact-options">
+            <legend class="field-label">Preferred contact method</legend>
+            <label class="contact-option">
+              <input type="radio" name="contact-method" value="email" checked>
+              <span class="option-icon" aria-hidden="true">✉</span>
+              <span><strong>Email</strong><small>Send from your Gmail</small></span>
+            </label>
+            <label class="contact-option">
+              <input type="radio" name="contact-method" value="sms">
+              <span class="option-icon" aria-hidden="true">▤</span>
+              <span><strong>Text message</strong><small>Share from your phone</small></span>
+            </label>
+          </fieldset>
+          <label class="field-label" for="recipient" id="recipient-label">Email address</label>
+          <input id="recipient" name="recipient" type="email" autocomplete="email" placeholder="name@example.com" required>
+          <p class="privacy-note" id="delivery-note">Email reports are sent using your connected Gmail account. For texts, choose your messaging app in the phone’s share sheet.</p>
+        </section>
+
+        <button class="submit-button" type="submit">
+          <span>Send report</span>
+          <span aria-hidden="true">→</span>
+        </button>
+        <p class="share-note" id="share-note">Email reports are sent directly from your Gmail. Text reports require you to choose a recipient and tap Send in your phone’s share sheet.</p>
+        <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+      </form>
+
+      <footer>Made to make getting help a little easier.</footer>
+    </main>
+    <script src="app.js" defer></script>
+  </body>
+</html>
