@@ -1,6 +1,8 @@
 services:
   - type: web
     name: problem-report
+    # Dedicated outbound IPs must be created in Render Dashboard > Networking > Dedicated IPs,
+    # then scoped to this service's environment and region.
     runtime: node
     plan: starter
     buildCommand: npm ci
