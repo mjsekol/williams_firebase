@@ -9,6 +9,7 @@ const recipientInput = document.querySelector("#recipient");
 const recipientLabel = document.querySelector("#recipient-label");
 const statusMessage = document.querySelector("#status-message");
 const submitButton = form.querySelector('button[type="submit"]');
+const submitLabel = document.querySelector("#submit-label");
 const accountStatus = document.querySelector("#account-status");
 const googleLogin = document.querySelector("#google-login");
 const logoutButton = document.querySelector("#logout-button");
@@ -34,6 +35,7 @@ function selectedContactMethod() {
 function updateContactField() {
   const isEmail = selectedContactMethod() === "email";
   recipientLabel.textContent = isEmail ? "Send report to email address" : "Phone number to text";
+  submitLabel.textContent = isEmail ? "Send an email" : "Share by text";
   recipientInput.type = isEmail ? "email" : "tel";
   recipientInput.autocomplete = isEmail ? "email" : "tel";
   recipientInput.placeholder = isEmail ? "name@example.com" : "+1 555 123 4567";

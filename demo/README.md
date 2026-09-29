@@ -1,12 +1,12 @@
 # Problem Report — Public Demo
 
-This repository contains the public static Problem Report app. It supports Firebase Authentication with email/password or phone verification; those are separate sign-in methods. Signed-in users can pass the selected photo and description to the phone's native share sheet. The user chooses an email or messaging app, selects the recipient, and confirms sending. The site does not upload or store reports. Firebase processes account credentials and phone verification; the selected email/SMS app handles report delivery under its own privacy policy.
+This directory contains the public static Problem Report app. It supports Firebase Authentication with email/password or phone verification; those are separate sign-in methods. Signed-in users can pass the selected photo and description to the phone's native share sheet. The user chooses an email or messaging app, selects the recipient, and confirms sending. The static site does not upload or store reports.
 
 The Web Share API with image files requires a supporting browser and normally an HTTPS site. When a browser cannot share the photo, the app explains the limitation rather than downloading the image or pretending it was sent.
 
 ## Publish with GitHub Pages
 
-The demo is published at [https://thunder-byte.github.io/problem-report-demo/](https://thunder-byte.github.io/problem-report-demo/). Commits to `main` are deployed by the included GitHub Actions workflow.
+The demo is published at [https://thunder-byte.github.io/problem-report-demo/](https://thunder-byte.github.io/problem-report-demo/). Commits to `main` are deployed by the included GitHub Actions workflow. GitHub Pages cannot run the backend needed for direct Gmail delivery; use the main app at `/` for that feature.
 
 ## Configure sign-in
 
