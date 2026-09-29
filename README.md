@@ -18,7 +18,7 @@ Signed-in users can connect a phone number by entering it in E.164 international
 
 ## Public web demo
 
-The public static app is available at [https://thunder-byte.github.io/problem-report-demo/](https://thunder-byte.github.io/problem-report-demo/). Its source is in [`demo/`](./demo/) and a separate public repository, so the private backend and credentials are not exposed. It shares the photo and description to the phone's native share sheet without downloading the photo; the user chooses an email or messaging app and recipient and confirms sending. Firebase Authentication sign-in is available after the owner adds the public Firebase web-app config and enables email/password and phone providers. See [`demo/README.md`](./demo/README.md) for setup and privacy details.
+The public static app is available at [https://thunder-byte.github.io/problem-report-demo/](https://thunder-byte.github.io/problem-report-demo/). Its source is in [`demo/`](./demo/) and a separate public repository, so the private backend and credentials are not exposed. It shares the photo and description to the phone's native share sheet without downloading the photo; the user chooses an email or messaging app and recipient and confirms sending. Firebase Authentication sign-in is available after the owner adds the public Firebase web-app config and enables email/password and phone providers. The Firebase CLI is optional; install it for Firebase command-line workflows with `npm install -g firebase-tools`. See [`demo/README.md`](./demo/README.md) for sign-in and Firebase Hosting setup.
 
 For a live app with Google sign-in, Gmail delivery, phone verification, and persistent sessions, use the production hosting setup below. Hosting a live backend and Redis may incur charges.
 
