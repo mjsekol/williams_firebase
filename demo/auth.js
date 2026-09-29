@@ -233,7 +233,7 @@ signOutButton.addEventListener("click", async () => {
   }
 });
 
-async resendVerificationButton.addEventListener("click", async () => {
+resendVerificationButton.addEventListener("click", async () => {
   const user = auth?.currentUser;
   if (!user?.email || user.emailVerified) {
     return;
@@ -271,7 +271,7 @@ refreshVerificationButton.addEventListener("click", async () => {
   }
 });
 
-function initializeAuthentication() {
+async function initializeAuthentication() {
   const config = window.PROBLEM_REPORT_FIREBASE_CONFIG;
   const requiredConfig = ["apiKey", "authDomain", "projectId", "appId"];
   const configReady = config && requiredConfig.every((key) =>
@@ -316,7 +316,7 @@ function initializeAuthentication() {
     }, () => {
       authLoading.hidden = true;
       authSetup.hidden = false;
-      authSetup.textContent = "Could not check your sign-in status. Refresh the page to try again.";
+      authSetupMessage.textContent = "Could not check your sign-in status. Refresh the page to try again.";
     });
   } catch {
     authSetup.hidden = false;
