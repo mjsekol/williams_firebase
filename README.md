@@ -21,6 +21,7 @@ Signed-in users can connect a phone number by entering it in E.164 international
 The main app at `/` supports Google sign-in, direct Gmail delivery to an entered recipient, and phone share-sheet messaging. A separate static app is available at [https://thunder-byte.github.io/problem-report-demo/](https://thunder-byte.github.io/problem-report-demo/). Its source is in [`demo/`](./demo/) and a separate public repository, so the private backend and credentials are not exposed. That static version uses Firebase sign-in and the phone's native share sheet; it cannot send email directly. See [`demo/README.md`](./demo/README.md) for its setup.
 
 For a live app with Google sign-in, Gmail delivery, phone verification, and persistent sessions, use the production hosting setup below. Hosting a live backend and Redis may incur charges.
+See the [production launch brief](./PRODUCTION_LAUNCH.md) for deployment requirements, platform options, release checks, and estimated costs.
 
 ## Text-message sharing
 
