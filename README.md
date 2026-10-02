@@ -2,6 +2,8 @@
 
 Mobile-first web app to email a problem photo and description from the signed-in user's Gmail account, or hand both to the phone's native share sheet for texting.
 
+See the [product brief](./PRODUCT_BRIEF.md) for the stakeholder explanation, user stories, use cases, local MVP scope, and acceptance criteria.
+
 ## Local setup
 
 1. Install Node.js 20 or newer.
